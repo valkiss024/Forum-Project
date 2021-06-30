@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Main Topic List
+{% endblock %}
+
+{% block content %}
+    <h3>List of all main topics:</h3>
+    {% if user.is_superuser %}
+        <a class="btn btn-primary m-3" href="{% url 'main-topic-create' %}">Add New</a>
+    {% endif %}
+    <div class="m-4">
+        {% for main_topic in main_topic_list %}
+            <div class="mb-3 border-bottom">
+                <div class="h4 font-weight-bold">
+                    <a href="{% url 'sub-topic-list' main_topic.id %}">{{ main_topic.title }}</a>
+                    {% if user.is_superuser %}
+                        <span><a class="btn btn-info btn-sm" href="{% url 'main-topic-update' main_topic.id %}">Update</a></span>
+                        <span><a class="btn btn-danger btn-sm" href="{% url 'main-topic-delete' main_topic.id %}">Delete</a></span>
+                    {% endif %}
+                </div>
+                <div>
+                    <h5>Topic description: {{ main_topic.description|truncatewords:5 }}</h5>
+                    <h6 class="text-muted">Created on: {{ main_topic.date }}</h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

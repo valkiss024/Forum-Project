@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h3 class="text-center my-4">Welcome to the <b>Forum</b>!</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+        anim id est laborum</p>
+    <h4 class="border-top-0">Most recent topics:</h4>
+    <div class="m-4">
+        {% for main_topic in main_topics %}
+            <div class="font-weight-bold h4 border-bottom my-3">
+                <a href="{% url 'sub-topic-list' main_topic.id %}">{{ main_topic.title }}</a>
+            </div>
+            <div>
+                <h5>Topic description: <i>{{ main_topic.description|truncatewords:5 }}</i></h5>
+                <h6 class="text-muted">Created on: {{ main_topic.date }}</h6>
+            </div>
+        {% endfor %}
+        <a href="{% url 'main-topic-list' %}">Click here to view all</a>
+    </div>
+
+
+{% endblock %}

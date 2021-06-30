@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+Create New Topic
+{% endblock %}
+
+{% block content %}
+    <h3>Create new topic:</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input class="btn btn-primary mt-2" type="submit" value="OK">
+    </form>
+{% endblock %}

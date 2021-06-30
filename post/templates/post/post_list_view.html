@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %} Post List {% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <div class="container w-50">
+        <div class="text-center">
+            <a class="btn btn-primary mb-2" href="{% url 'post-create' main_topic.id sub_topic.id %}">Add Post</a>
+        </div>
+        {% if post_list %}
+            {% for post in post_list %}
+            <div class="my-4 border-top">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="">
+                {% endif %}
+                <h4>{{ post.title }}</h4>
+                {% if user.is_superuser %}
+                    <span><a class="btn btn-danger btn-sm" href="{% url 'post-delete' post.sub_topic.main_topic.id post.sub_topic.id post.id %}">Delete</a></span>
+                {% endif %}
+                <p class="text-muted">Author: {{ post.author }} - {{ post.date }}</p>
+                <div>
+                    <h5>{{ post.content }}</h5>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>This topic does not have any post in it yet...</p>
+        {% endif %}
+        {% if is_paginated %}
+            <div class="text-center my-3">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info btn-sm" href="?page=1">First</a>
+                <a class="btn btn-outline-info btn-sm" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="btb btn-outline-primary btn-sm" disabled>
+                {{ page_obj.number }}
+            </span>
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info btn-sm" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info btn-sm" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}

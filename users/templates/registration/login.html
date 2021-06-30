@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="card mx-auto w-50 p-4">
+            <div class="card-title text-center">
+                <h4>Login!</h4>
+            </div>
+            <div class="card-subtitle mb-4 text-center">
+                <h6>Please fill out the fields required!</h6>
+            </div>
+            <fieldset class="form-group">
+            {{ form|crispy }}
+            </fieldset>
+            <input class="btn btn-primary w-10" type="submit" value="Login">
+            <p class="text-muted mt-3">Don't have an account? <a href="{% url 'register' %}">Click here!</a></p>
+        </div>
+    </form>
+{% endblock %}

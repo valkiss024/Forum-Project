@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Sub Topic List
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <h3>List of topics in {{ main_topic }}</h3>
+    <a class="btn btn-primary m-3" href="{% url 'sub-topic-create' main_topic.id %}">Add New</a>
+    {% if object_list %}
+        {% for sub_topic in sub_topic_list %}
+            <div class="h4 mb-3 font-weight-bold">
+                <a href="{% url 'post-list' main_topic.id sub_topic.id %}">{{ sub_topic.title }}</a>
+                {% if sub_topic.is_new %}
+                    <span class="text-success px-1 h6">* new *</span>
+                {% endif %}
+                {% if user.is_superuser or sub_topic.author == user %}
+                    <span><a class="btn btn-info btn-sm" href="{% url 'sub-topic-update' main_topic.id sub_topic.id %}">Update</a></span>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <span><a class="btn btn-danger btn-sm" href="{% url 'sub-topic-delete' main_topic.id sub_topic.id %}">Delete</a></span>
+                {% endif %}
+            </div>
+            <div class="mb-2 pt-2 border-bottom">
+                <h5>Topic description: {{ sub_topic.description|truncatewords:5 }}</h5>
+                <h6 class="text-muted">Created on: {{ sub_topic.date }}, by: {{ sub_topic.author }}</h6>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>This topic does not have any sub topic yet...</p>
+    {% endif %}
+
+
+
+{% endblock %}

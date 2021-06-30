@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+Update Sub Topic
+{% endblock %}
+
+{% block content %}
+    <h4>Update the details of {{ object.title }}</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input class="btn btn-info mt-2" type="submit" value="Update">
+    </form>
+{% endblock %}
